@@ -185,14 +185,10 @@ message ProvisionerGrantBucketAccessRequest {
     // result in only one access token being created
     string account_name = 2;
 
-    // This field is REQUIRED
-    // Requested Access policy, ex: {"Effect":"Allow","Action":"s3:PutObject","Resource":"arn:aws:s3:::profilepics/*"}
-    string access_policy = 3;
-
     // This field is OPTIONAL
     // The caller should treat the values in parameters as opaque. 
     // The receiver is responsible for parsing and validating the values.
-    map<string,string> parameters = 4;
+    map<string,string> parameters = 3;
 }
 
 message ProvisionerGrantBucketAccessResponse {
