@@ -10,7 +10,7 @@ import (
 )
 
 // MarshalJSON implements json.Marshaler
-func (msg *S3) MarshalJSON() ([]byte, error) {
+func (msg *BucketInfo) MarshalJSON() ([]byte, error) {
 	var buf bytes.Buffer
 	err := (&jsonpb.Marshaler{
 		EnumsAsInts:  false,
@@ -21,61 +21,7 @@ func (msg *S3) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler
-func (msg *S3) UnmarshalJSON(b []byte) error {
-	return (&jsonpb.Unmarshaler{
-		AllowUnknownFields: false,
-	}).Unmarshal(bytes.NewReader(b), msg)
-}
-
-// MarshalJSON implements json.Marshaler
-func (msg *AzureBlob) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	err := (&jsonpb.Marshaler{
-		EnumsAsInts:  false,
-		EmitDefaults: true,
-		OrigName:     false,
-	}).Marshal(&buf, msg)
-	return buf.Bytes(), err
-}
-
-// UnmarshalJSON implements json.Unmarshaler
-func (msg *AzureBlob) UnmarshalJSON(b []byte) error {
-	return (&jsonpb.Unmarshaler{
-		AllowUnknownFields: false,
-	}).Unmarshal(bytes.NewReader(b), msg)
-}
-
-// MarshalJSON implements json.Marshaler
-func (msg *GCS) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	err := (&jsonpb.Marshaler{
-		EnumsAsInts:  false,
-		EmitDefaults: true,
-		OrigName:     false,
-	}).Marshal(&buf, msg)
-	return buf.Bytes(), err
-}
-
-// UnmarshalJSON implements json.Unmarshaler
-func (msg *GCS) UnmarshalJSON(b []byte) error {
-	return (&jsonpb.Unmarshaler{
-		AllowUnknownFields: false,
-	}).Unmarshal(bytes.NewReader(b), msg)
-}
-
-// MarshalJSON implements json.Marshaler
-func (msg *Protocol) MarshalJSON() ([]byte, error) {
-	var buf bytes.Buffer
-	err := (&jsonpb.Marshaler{
-		EnumsAsInts:  false,
-		EmitDefaults: true,
-		OrigName:     false,
-	}).Marshal(&buf, msg)
-	return buf.Bytes(), err
-}
-
-// UnmarshalJSON implements json.Unmarshaler
-func (msg *Protocol) UnmarshalJSON(b []byte) error {
+func (msg *BucketInfo) UnmarshalJSON(b []byte) error {
 	return (&jsonpb.Unmarshaler{
 		AllowUnknownFields: false,
 	}).Unmarshal(bytes.NewReader(b), msg)

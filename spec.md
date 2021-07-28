@@ -202,54 +202,34 @@ service Provisioner {
     rpc ProvisionerRevokeBucketAccess (ProvisionerRevokeBucketAccessRequest) returns (ProvisionerRevokeBucketAccessResponse);
 }
 
-// S3SignatureVersion is the version of the signing algorithm for all s3 requests
-enum S3SignatureVersion {
-    UnknownSignature = 0;
-    // S3V2, Signature version v2
-    S3V2 = 1;
-    // S3V4, Signature version v4
-    S3V4 = 2;
+enum Protocol {
+    UnknownProtocol = 0;
+    // S3Protocol represents that the bucket should be created for the S3
+    // object storage protocol
+    S3Protocol = 1;
+    // GCSProtocol represents that the bucket should be created for the Google 
+    // Cloud Storage protocol
+    GCSProtocol = 2;
+    // AzureProtocol represents that the bucket should be created for the Azure
+    // Blob storage protocol
+    AzureProtocol = 3;
 }
 
-enum AnonymousBucketAccessMode {
-    UnknownBucketAccessMode = 0;
-    // Default, disallow uncredentialed access to the backend storage.
-    Private = 1;
-    // Read only, uncredentialed users can call ListBucket and GetObject.
-    ReadOnly = 2;
-    // Write only, uncredentialed users can only call PutObject.
-    WriteOnly = 3;
-    // Read/Write, uncredentialed users can read objects as well as PutObject.
-    ReadWrite = 4;
-}
+message BucketInfo {
+    // This field is REQUIRED
+    // bucket_name is a client readable identifier to connect
+    // to the object storage provider
+    string bucket_name = 1;
 
-message S3 {
-    // region denotes the geographical region where the S3 server is running
-    string region = 1;
-    // signature_version denotes the signature version for signing all s3 requests
-    S3SignatureVersion signature_version = 2;
-}
+    // This field is OPTIONAL
+    // endpoint is a URL or path used to connect in parallel with the
+    // bucket_name to connect to the object storage provider
+    string endpoint = 2;
 
-message AzureBlob {
-    // storage_account is the id of the azure storage account
-    string storage_account = 1;
-}
-
-message GCS {
-    // private_key_name denotes the name of the private key in the storage backend
-    string private_key_name = 1;
-    // project_id denotes the name of the project id in the storage backend
-    string project_id = 2;
-    // service_account denotes the name of the service account in the storage backend
-    string service_account = 3;
-}
-
-message Protocol {
-    oneof type {
-        S3 s3 = 1;
-        AzureBlob azureBlob = 2;
-        GCS gcs = 3;
-    }
+    // This field is OPTIONAL
+    // region denotes the geographical region where the object 
+    // storage provide is running
+    string region = 3;
 }
 
 message ProvisionerGetInfoRequest {
@@ -284,9 +264,15 @@ message ProvisionerCreateBucketRequest {
 }
 
 message ProvisionerCreateBucketResponse {
+    // This field is REQUIRED
     // bucket_id returned here is expected to be the globally unique 
     // identifier for the bucket in the object storage provider 
     string bucket_id = 1;
+    
+    // This field is REQUIRED
+    // bucket_info contains metadata about the created bucket
+    // which allows clients to connect to the object storage provider 
+    BucketInfo bucket_info = 2; 
 }
 
 message ProvisionerDeleteBucketRequest {
