@@ -1,3 +1,6 @@
+# MOVED: **This repo has been moved to https://github.com/kubernetes-sigs/container-object-storage-interface : see `proto` directory**
+
+
 ![version](https://img.shields.io/badge/status-pre--alpha-lightgrey)
 
 # Container Object Storage Interface Spec
